@@ -3,20 +3,26 @@
 import cv2
 import numpy as np
 import biblioteca
+import os
+print ("OpenCV Version : %s " % cv2.__version__)
 
 # Este programa vai capturar um frame da webcam quando uma tecla específica for pressionada
 # e vai identificar o tabuleiro e as peças posicionadas.
 # A tecla a ser pressionada para captura é:
 
-
 frame = cv2.imread("img/teste2.png")
 
-# Na maioriua das situações, podemos usar a máscara do tabuleiro como guia para identificar
-# o tabuleiro no ambiente antes de analisar as peças
+###########################################################################################
+### Essa seção é utilizada para separar apenas o tabuleiro do resto da imagem.
+### Para fazer isso, utilizarei a máscara do tabuleiro como guia para identificar
+### o tabuleiro no ambiente e cortar um retângulo contendo esse tabuleiro
+### para poder analisar as peças do tabuleiro sem interferências.
 
 # hsv_frame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2HSV)
-
-# mask_tabuleiro = cv2.inRange(hsv_frame,(236/2, int(0.2*255), int(0.68*255)),(250/2, int(0.3*255), int(0.75*255)))
+### Essas cores devem servir para estipular uma faixa da cor do tabuleiro que deve ser segmentado
+# lower_color = ( 236/2 , int(0.2*255) , int(0.68*255) )
+# upper_color = ( 250/2 , int(0.3*255) , int(0.75*255) )
+# mask_tabuleiro = cv2.inRange(hsv_frame, lower_color, upper_color)
 
 # i_linhas, i_colunas = np.where(mask_tabuleiro!=0)
 # min_linha = min(i_linhas)
@@ -25,6 +31,7 @@ frame = cv2.imread("img/teste2.png")
 # max_coluna = max(i_colunas)
 
 # frame = frame[min_linha:max_linha, min_coluna:max_coluna]
+###########################################################################################
 
 altura_tab = frame.shape[0]
 altura_linha = int(altura_tab/6)
@@ -101,10 +108,10 @@ print(f'Vermelho ganhou?{ganhou}')
 ganhou = biblioteca.checa_vitoria(mat_jogo, 2)
 print(f'Amarelo ganhou?{ganhou}')
 
+if __name__ == '__main__':
+    while True:
+        cv2.imshow('Frame', frame)
+        # cv2.imshow('Mask tabuleiro', mask_tabuleiro)
 
-while True:
-    cv2.imshow('Frame', frame)
-    # cv2.imshow('Mask tabuleiro', mask_tabuleiro)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
