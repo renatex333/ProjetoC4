@@ -92,26 +92,30 @@ if __name__ == '__main__':
     pos55 = frame[altura_linha*5:altura_linha*6, largura_coluna*5:largura_coluna*6]
     pos56 = frame[altura_linha*5:altura_linha*6, largura_coluna*6:]
 
-    posicoes = [[pos00, pos01, pos02, pos03, pos04, pos05, pos06],
-                [pos10, pos11, pos12, pos13, pos14, pos15, pos16],
-                [pos20, pos21, pos22, pos23, pos24, pos25, pos26],
-                [pos30, pos31, pos32, pos33, pos34, pos35, pos36],
-                [pos40, pos41, pos42, pos43, pos44, pos45, pos46],
-                [pos50, pos51, pos52, pos53, pos54, pos55, pos56]]
+    matriz_posicoes = [ [pos00, pos01, pos02, pos03, pos04, pos05, pos06],
+                        [pos10, pos11, pos12, pos13, pos14, pos15, pos16],
+                        [pos20, pos21, pos22, pos23, pos24, pos25, pos26],
+                        [pos30, pos31, pos32, pos33, pos34, pos35, pos36],
+                        [pos40, pos41, pos42, pos43, pos44, pos45, pos46],
+                        [pos50, pos51, pos52, pos53, pos54, pos55, pos56]
+                      ]
 
-    matriz_jogo = np.zeros((6,7))
+    matriz_tabuleiro = np.zeros((6,7))
 
     for i in range(0,6):
         for j in range(0,7):
             # 0 -> sem peça
             # 1 -> peça vermelha
             # 2 -> peça amarela
-            matriz_jogo[i][j] = biblioteca.encontra_peca(posicoes[i][j])
+            matriz_tabuleiro[i][j] = biblioteca.encontra_peca(matriz_posicoes[i][j])
 
-    print(matriz_jogo)
-    ganhou = biblioteca.checa_vitoria(matriz_jogo, 1)
+    peca_vermelha = 1
+    peca_amarela = 2
+    
+    print(matriz_tabuleiro)
+    ganhou = biblioteca.checa_vitoria(matriz_tabuleiro, peca_vermelha)
     print(f'Vermelho ganhou?{ganhou}')
-    ganhou = biblioteca.checa_vitoria(matriz_jogo, 2)
+    ganhou = biblioteca.checa_vitoria(matriz_tabuleiro, peca_amarela)
     print(f'Amarelo ganhou?{ganhou}')
 
 
